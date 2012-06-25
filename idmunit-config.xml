@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<idmunit live-profile="Dev" enable-email-alerts="true" enable-log-alerts="true">
+	<alerts>
+		<alert name="Alert">
+			<description>Email recipients will be notified if a test marked as "Critical" fails</description>
+			<smtp-server>smtp.EXAMPLE.com</smtp-server>
+			<alert-sender>idmunitAlerts@example.org</alert-sender>
+			<alert-recipient>idmunitAlerts@example.org</alert-recipient>
+			<subject-prefix>IdMUnit Test Failed: </subject-prefix>
+			<log-path>c:/idmunitAlerts.log</log-path>
+		</alert>
+	</alerts>
+	<profiles>
+		<profile name="Dev">
+			<connection> <!-- AD -->
+				<name>AD</name>
+				<description>Connector for Active Directory</description>
+				<type>org.idmunit.connector.LDAP</type>
+				<server>172.17.2.173:636</server>
+				<user>CN=Administrator,CN=Users,DC=EXAMPLE,DC=ORG</user>
+				<password>B2vPD2UsfKc=</password>
+				<keystore-path/>
+				<multiplier>
+					<retry>0</retry>
+					<wait>0</wait>
+				</multiplier>
+				<substitutions>
+					<substitution>
+						<replace>%AD_DOMAIN%</replace>
+						<new>DC=EXAMPLE,DC=ORG</new>
+					</substitution>
+				</substitutions>
+				<data-injections>
+					<data-injection>
+						<type>org.idmunit.injector.DateInjection</type>
+						<key>%TODAY%</key>
+						<format>yyyyMMdd</format>
+					</data-injection>
+					<data-injection>
+						<type>org.idmunit.injector.DateInjection</type>
+						<key>%TODAY+30%</key>
+						<format>yyyyMMdd</format>
+						<mutator>30</mutator>
+					</data-injection>
+				</data-injections>
+				<trust-all-certs>true</trust-all-certs>
+			</connection>
+			<connection> <!-- IDV -->
+				<name>IDV</name>
+				<description>Connector for the identity vault</description>
+				<type>org.idmunit.connector.LDAP</type>
+				<server>172.17.2.237:636</server>
+				<user>cn=admin,o=services</user>
+				<password>B2vPD2UsfKc=</password>
+				<encryptedFieldExample encrypted="true">B2vPD2UsfKc=</encryptedFieldExample>
+				<keystore-path/>
+				<multiplier>
+					<retry>0</retry>
+					<wait>0</wait>
+				</multiplier>
+				<substitutions>
+					<substitution>
+						<replace>%SMTP-IP-SYSTEM1%</replace>
+						<new>172.17.2.131</new>
+					</substitution>
+					<substitution>
+						<replace>%SMTP-IP-SYSTEM2%</replace>
+						<new>172.17.2.132</new>
+					</substitution>
+				</substitutions>
+				<data-injections>
+					<data-injection>
+						<type>org.idmunit.injector.DateInjection</type>
+						<key>%TODAY%</key>
+						<format>yyyyMMdd</format>
+					</data-injection>
+					<data-injection>
+						<type>org.idmunit.injector.DateInjection</type>
+						<key>%TODAY+30%</key>
+						<format>yyyyMMdd</format>
+						<mutator>30</mutator>
+					</data-injection>
+				</data-injections>
+				<trust-all-certs>true</trust-all-certs>
+			</connection>
+		</profile>
+	</profiles>
+</idmunit>

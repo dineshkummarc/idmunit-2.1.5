@@ -1,0 +1,499 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>IdMUnit Usage Guide</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.74.3-pre"><meta name="description" content="This document contains installation and usage instructions for IdMUnit, an automated test framework for Identity Management (IdM) systems. Additional training and documentation is available through IdMUnit training and consulting. Request more information at info@trivir.com This document contains instructions for the installation and basic use of IdMUnit. More information can be obtained by emailing info@trivir.com or going to www.IdMUnit.org. License information: IdMUnit - Automated Testing Framework for Identity Management Solutions Copyright (c) 2005-2009 TriVir, LLC This program is licensed under the terms of the GNU General Public License Version 2 (the &#34;License&#34;) as published by the Free Software Foundation, and the TriVir Licensing Policies (the &#34;License Policies&#34;). A copy of the License and the Policies were distributed with this program. Designer and Identity Manager are registered trademarks of Novell, Inc. Microsoft and Excel are registered trademarks of Microsoft Corporation. OpenOffice.org is a trademark of Team OpenOffice.org. IdMUnit is a registered trademark of TriVir, LLC. Information about IdMUnit or the open source project may be found at www.idmunit.org and http://sourceforge.net/projects/idmunit/ "></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d4e1"></a>IdMUnit Usage Guide</h1></div><div><div class="author"><h3 class="author"><span class="firstname">Brent</span> <span class="surname">Kynaston</span></h3><div class="affiliation">
+        <span class="orgname">TriVir, LLC<br></span>
+
+        <div class="address"><p>11570&nbsp;Popes&nbsp;Head&nbsp;View&nbsp;Lane<br>
+Fairfax,&nbsp;VA<br>
+22030<br>
+<span class="country">USA</span>,<br>
+Phone:&nbsp;703-608-3498<br>
+Fax:&nbsp;703-991-7134,<br>
+Web:&nbsp;<span class="otheraddr"><a class="ulink" href="http://www.idmunit.org" target="_top">www.idmunit.org</a></span><br>
+Web:&nbsp;<span class="otheraddr"><a class="ulink" href="http://www.trivir.com" target="_top">www.trivir.com</a></span><br>
+Email:&nbsp;<code class="email">&lt;<a class="email" href="mailto:info@trivir.com">info@trivir.com</a>&gt;</code></p></div>
+      </div></div></div><div><p class="pubdate">May 4 2009</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p>
+      <p>This document contains installation and usage instructions for
+      IdMUnit, an automated test framework for Identity Management (IdM)
+      systems. Additional training and documentation is available through
+      IdMUnit training and consulting. Request more information at
+      info@trivir.com</p>
+
+      <p>This document contains instructions for the installation and basic
+      use of IdMUnit. More information can be obtained by emailing
+      info@trivir.com or going to www.IdMUnit.org.</p>
+
+      <p>License information:</p>
+
+      <p>IdMUnit - Automated Testing Framework for Identity Management
+      Solutions Copyright (c) 2005-2009 TriVir, LLC</p>
+
+      <p>This program is licensed under the terms of the GNU General Public
+      License Version 2 (the "License") as published by the Free Software
+      Foundation, and the TriVir Licensing Policies (the "License Policies").
+      A copy of the License and the Policies were distributed with this
+      program. Designer and Identity Manager are registered trademarks of
+      Novell, Inc. Microsoft and Excel are registered trademarks of Microsoft
+      Corporation. OpenOffice.org is a trademark of Team OpenOffice.org.
+      IdMUnit is a registered trademark of TriVir, LLC.</p>
+
+      <p>Information about IdMUnit or the open source project may be found
+      at www.idmunit.org and <a class="ulink" href="http://sourceforge.net/projects/idmunit/" target="_top">http://sourceforge.net/projects/idmunit/</a></p>
+
+      <p><span class="inlinemediaobject"><img src="./images/IDMUNIT_LOGOmed.bmp"></span></p>
+    </div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#d4e29">1. Introduction</a></span></dt><dt><span class="chapter"><a href="#install">2. Installation</a></span></dt><dd><dl><dt><span class="section"><a href="#installing_xxe">Installing IdMUnit</a></span></dt><dd><dl><dt><span class="section"><a href="#d4e39">Requirements</a></span></dt><dt><span class="section"><a href="#d4e60">Installing Eclipse Overlay</a></span></dt><dt><span class="section"><a href="#d4e83">Installing IdMUnit Components</a></span></dt></dl></dd><dt><span class="section"><a href="#content_of_install_dir">IdMUnit Spreadsheet Content: Identity Management-related Nouns
+      and Verbs</a></span></dt><dd><dl><dt><span class="section"><a href="#d4e138">Spreadsheet Usage Vocabulary</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#idmunitinstall">3. Configuration</a></span></dt><dd><dl><dt><span class="section"><a href="#idmunitinstall_xxe">Configuring IdMUnit</a></span></dt><dd><dl><dt><span class="section"><a href="#d4e149">Profile Configuration</a></span></dt><dt><span class="section"><a href="#d4e159">Profile Selection</a></span></dt><dt><span class="section"><a href="#d4e173">Password Encryption for Use in the IdMUnit Profile
+        Configuration</a></span></dt><dt><span class="section"><a href="#d4e202">Import a Certificate into IdMUnit for SSL Communication via the
+        LDAP Connector</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#tutorial_modular_document">4. Tutorial: Command-line IdMUnit Scripting and Scheduling</a></span></dt><dt><span class="chapter"><a href="#being_productive">5. Best Practices: Accelerating
+    Development, Testing and IDM Productivity with IdMUnit</a></span></dt><dt><span class="appendix"><a href="#d4e230">A. Miscellaneous</a></span></dt><dd><dl><dt><span class="section"><a href="#d4e232">Install Designer on Linux</a></span></dt></dl></dd></dl></div>
+  
+
+  <div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d4e29"></a>Chapter&nbsp;1.&nbsp;Introduction</h2></div></div></div>
+    
+
+    <p>IdMUnit is a must-have automated testing tool that integrates with
+    Designer for Identity Manager. This suite, based on xUnit
+    architecture, will automatically transform documented test cases
+    into actual automated tests, execute them, and record the results
+    (pass/fail/warning) in text and/or HTML output. This suite provides
+    integrated policy, driver and system testing to accelerate the project
+    release time-frame, ease development risk, control scope, and ensure
+    logical compliance with functional requirements from design until
+    deployment and beyond. Complete functional testing can now be completed
+    for the entire identity management solution in seconds rather than
+    weeks.</p>
+
+    <p>IdMUnit provides a quality-control compliment to Identity Manager as
+    it quickly certifies that installed drivers are functioning according to
+    business rules and solution specifications. It also works with TriVir's
+    Data Comparator, which validates the state of every synchronized object
+    and attribute to ensure that synchronization is working as expected
+    throughout connected production systems.</p>
+
+    <p>This software is developed and maintained by TriVir. TriVir
+    maintains two versions of IdMUnit, a customer and an open source
+    version. New features and updates are made regularly to the customer
+    version of the code. When enough changes are accumulated in the
+    customer version of the code then the Open Source version is updated
+    with the changes from the customer version.</p>
+  </div>
+
+  <div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="install"></a>Chapter&nbsp;2.&nbsp;Installation</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#installing_xxe">Installing IdMUnit</a></span></dt><dd><dl><dt><span class="section"><a href="#d4e39">Requirements</a></span></dt><dt><span class="section"><a href="#d4e60">Installing Eclipse Overlay</a></span></dt><dt><span class="section"><a href="#d4e83">Installing IdMUnit Components</a></span></dt></dl></dd><dt><span class="section"><a href="#content_of_install_dir">IdMUnit Spreadsheet Content: Identity Management-related Nouns
+      and Verbs</a></span></dt><dd><dl><dt><span class="section"><a href="#d4e138">Spreadsheet Usage Vocabulary</a></span></dt></dl></dd></dl></div>
+    
+
+    <p>These installation instructions cover installing IdMUnit into
+    Designer for Novell Identity Manager. IdMUnit can also be executed using a
+    command line interface, but that is not covered as part of this
+    document.</p>
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="installing_xxe"></a>Installing IdMUnit</h2></div></div></div>
+      
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e39"></a>Requirements</h3></div></div></div>
+        
+
+        <div class="itemizedlist"><ul type="disc"><li>
+            <p>Any operating system supported by Designer for Novell
+            Identity Manager</p>
+          </li><li>
+            <p>At least a 1GHz CPU</p>
+          </li><li>
+            <p>At least 1024Mb of RAM</p>
+          </li><li>
+            <p>40Mb of free disk space</p>
+          </li></ul></div>
+
+        <p>IdMUnit has been tested with:</p>
+
+        <div class="itemizedlist"><ul type="disc"><li>
+            <p><a class="ulink" href="http://java.sun.com/j2se/" target="_top">Sun
+            <span class="trademark">Java</span>&#8482;</a> runtime 1.5+ (up to 1.6.0_07)
+            under Windows 2000, XP, Vista, openSUSE Linux 10.2, SUSE Linux
+            Enterprise Desktop 10.x and SUSE Linux Enterprise Server.</p>
+          </li><li>
+            <p>Command line version tested on multiple revisions of Solaris
+            and NetWare in addition to the platforms listed above.</p>
+          </li><li>
+            <p>Designer versions 1.2, 2.1.1 and 3.0.x (including multiple
+            iteration release candidates)</p>
+          </li></ul></div>
+      </div>
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e60"></a>Installing Eclipse Overlay</h3></div></div></div>
+        
+
+        <div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+          <p>Installing into a virtual machine will provide maximum
+          portability and the ability to take configuration snapshots at
+          desired intervals</p>
+        </div>
+
+        <div class="procedure"><ol type="1"><li>
+            <p>Download the desired Eclipse overlay (with at least the Java
+            development plug-ins). The tested overlay may be download from
+            here:</p>
+
+            <p>Click on the "Eclipse IDE for Java Developers" link on this
+            page: <a class="ulink" href="http://www.eclipse.org/downloads/packages/release/europa/winter" target="_top">Eclipse
+            Europa</a></p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                <p>The Europa release tends to package all of the necessary
+                related dependencies for Eclipse and the additional packages
+                required by Designer</p>
+              </div>
+          </li><li>
+            <p>Apply the Eclipse overlay on top of Designer</p>
+
+            <div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                <p>Backing up the config.ini found in
+                Designer/eclipse/configuration and restoring it after the
+                overlay will maintain the Designer branding and
+                packaging</p>
+              </div>
+
+            <p>Copy the folders found in ECLIPSE EXTRACT/eclipse (i.e.
+            configuration, features, plugins and readme) to the
+            Designer/eclipse folder, overwriting all files.</p>
+
+            <div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                <p>Restore the Designer/eclipse/configuration/config.ini
+                file to regain the Designer look &amp; feel</p>
+              </div><p>Restart Designer and validate that project can
+            open.</p>
+
+            <p>If the overlay was successful, the Java perspective will be
+            available (Window --&gt; Open Perspective --&gt; Other --&gt;
+            Java). Switch to the Java perspective now and re-organize windows
+            as necessary.</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                <p>Any missing Designer views may be re-opened from Window
+                --&gt; Open view.</p>
+              </div>
+          </li></ol></div>
+      </div>
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e83"></a>Installing IdMUnit Components</h3></div></div></div>
+        
+
+        <div class="procedure"><ol type="1"><li>
+            <p>Download the release of IdMUnit from <a class="ulink" href="http://www.idmunit.org/web/guest/downloads" target="_top">http://www.idmunit.org</a>.</p>
+          </li><li>
+            <p>Unzip the IdMUnit release you downloaded.</p>
+          </li><li>
+            <p>Import IdMUnit project from the release into Designer.</p>
+
+            <div class="orderedlist"><ol type="1"><li>
+                  <p>Select File -&gt; Import</p>
+                </li><li>
+                  <p>Select "Existing Projects into Workspace" for the import source and click Next.</p>
+                </li><li>
+                  <p>For the "Select root directory" input specify the unzipped IdMUnit release directory you created above.</p>
+                </li><li>
+                  <p>Select "IdMUnitTests" from the list of "Projects" and click Finish.</p>
+                </li></ol></div>
+          </li><li>
+            <p>Creating a New Test Spreadsheet and Runner</p>
+
+            <div class="orderedlist"><ol type="1"><li>
+                <p>You are now ready to create the Excel workbook and the
+                corresponding Java class for your project. These should be
+                created in a sub-directory, typically org\idmunit, of the src
+                directory in your project.</p>
+
+                <p>The Excel workbook name must consist of only
+                alpa-numeric characters and must not start with a
+                number.</p>
+
+                <p>The name of the Java class must match the name of the
+                workbook.</p>
+
+                <p>The Java class must extend the
+                <span class="type">org.idmunit.IdMUnitTestCase</span> class.</p>
+
+                <p>Any sheets you want to execute from the workbook need a
+                corresponding method in the Java class.</p>
+
+                <p>The method should consist of only a call to the
+                executeTest method.</p>
+
+                <pre class="programlisting">public void testMetaToADUserAdd() throws Exception {
+    executeTest();
+  }
+</pre>
+
+                <p>The Java class must include a suite method with a call
+                to DDStepsSuiteFactory.createSuite.</p>
+
+                <pre class="programlisting">public static Test suite() {
+      return DDStepsSuiteFactory.createSuite(YourClass.class);
+  }
+</pre>
+              </li></ol></div>
+          </li><li>
+            <p>Basic Test Execution</p>
+
+            <p>Test configurations may be executed as follows:</p>
+
+            <div class="orderedlist"><ol type="1"><li>
+                <p>Expand the test project in the Package Explorer view of
+                Designer (with Eclipse overlay)</p>
+              </li><li>
+                <p>Open the desired test runner in Designer (this file will
+                be named with the same name as the target test spreadsheet but
+                with a .Java file extension) by double-clicking the file
+                name.</p>
+              </li><li>
+                <p>Enable or disable the desired test sheets that should be
+                executed from the spreadsheet/workbook. Double forward-slash
+                will de-activate a line.</p>
+              </li><li>
+                <p>Execute the spreadsheet tests by right clicking the
+                window (or the file name in the Package Explorer) and run as
+                JUnit test.</p>
+              </li><li>
+                <p>Monitor progress in the JUnit plug-in of
+                Designer.</p>
+
+                <div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+                    <p>After updating test configuration in a particular
+                    spreadsheet it should be saved and then refreshed in
+                    Designer to pull the latest test configuration into the
+                    project. A spreadsheet can be refreshed in Designer by
+                    right-clicking and selecting refresh or by hitting F5
+                    while selected.</p>
+                  </div>
+              </li></ol></div>
+          </li></ol></div>
+      </div>
+    </div>
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="content_of_install_dir"></a>IdMUnit Spreadsheet Content: Identity Management-related Nouns
+      and Verbs</h2></div></div></div>
+      
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e138"></a>Spreadsheet Usage Vocabulary</h3></div></div></div>
+        
+
+        <div class="itemizedlist"><ul type="disc"><li>
+            <p>IdMUnit talks directly to each Identity Manager-connected
+            system to generate and validate transactions and data. The
+            transactions generated by IdMUnit include all those possible and
+            common in identity management integrations such as object add,
+            modify, delete, rename, move, enable, disable, password
+            initialization, password sync, locked by intruder, etc.</p>
+          </li><li>
+            <p>Refer to the IdMUnit 2.0 Reference Spreadsheet for examples
+            on all officially supported transactions and validations (found in
+            idmunit-core/docs/IdMUnitReference.xls</p>
+          </li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="idmunitinstall"></a>Chapter&nbsp;3.&nbsp;Configuration</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#idmunitinstall_xxe">Configuring IdMUnit</a></span></dt><dd><dl><dt><span class="section"><a href="#d4e149">Profile Configuration</a></span></dt><dt><span class="section"><a href="#d4e159">Profile Selection</a></span></dt><dt><span class="section"><a href="#d4e173">Password Encryption for Use in the IdMUnit Profile
+        Configuration</a></span></dt><dt><span class="section"><a href="#d4e202">Import a Certificate into IdMUnit for SSL Communication via the
+        LDAP Connector</a></span></dt></dl></dd></dl></div>
+    
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idmunitinstall_xxe"></a>Configuring IdMUnit</h2></div></div></div>
+      
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e149"></a>Profile Configuration</h3></div></div></div>
+        
+
+        <div class="itemizedlist"><ul type="disc"><li>
+            <p>Profiles contain a collection of connection information
+            required for target systems. A single profile represents all of
+            the necessary information required to talk to Identity
+            Manager-connected systems within a single environment, like the
+            development lab, test lab, or production environment. For
+            additional details on the layout of a profile, see
+            IdMUnit.dtd.</p>
+
+            <p>Sample profile excerpt:</p>
+
+            <p><span class="inlinemediaobject"><img src="./images/profileExcerpt.bmp"></span></p>
+          </li></ul></div>
+      </div>
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e159"></a>Profile Selection</h3></div></div></div>
+        
+
+        <div class="itemizedlist"><ul type="disc"><li>
+            <p>The &#8221;live-profile&#8221; specified at the top of the
+            IdMUnit-config.xml file will be the profile used by IdMUnit for
+            test execution.</p>
+
+            <p>For example:</p>
+
+            <p><span class="inlinemediaobject"><img src="./images/profileHeader.bmp"></span></p>
+
+            <p>This configuration would execute tests against the
+            connections specified in the &#8221;trivirLab&#8221; profile. It
+            would also write a log and send email alerts if any tests fail
+            that have been marked as "IsCritical" in the spreadsheet.</p>
+          </li><li>
+            <p>Profile Use in a Multi-User Environment</p>
+
+            <p>Available upon request in the IdMUnit 2.0 Training Session
+            (more info available at info@trivir.com)</p>
+          </li></ul></div>
+      </div>
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e173"></a>Password Encryption for Use in the IdMUnit Profile
+        Configuration</h3></div></div></div>
+        
+
+        <div class="itemizedlist"><ul type="disc"><li>
+            <p>Passwords need to be encrypted using DES and base-64 encoded
+            in order to be used in idmunit-profile.xml. The following steps
+            will encrypte and encode a password:</p>
+          </li></ul></div>
+
+        <div class="orderedlist"><ol type="1"><li>
+            <p>Open the EncTool class in the Package Explorer</p>
+          </li><li>
+            <p>Expand the IdMUnit-core folder in the Package Explorer
+            --&gt; expand the org.IdMUnit package --&gt; right-click EncTool
+            and select Run-AS --&gt; then select the green Run button</p>
+          </li><li>
+            <p>Select Java application in the left pane of the new pop-up
+            window</p>
+          </li><li>
+            <p>Click the &#8221;new&#8221; icon in the top left-hand
+            corner and a configuration layout will appear to the right</p>
+          </li><li>
+            <p>Select the arguments tab</p>
+          </li><li>
+            <p>In the Program Arguments field, type the following where
+            mypassword is the actual password of the system like so:</p>
+          </li><li>
+            <pre class="programlisting">IDMUNIT1 mypassword</pre>
+          </li><li>
+            <p>Click Run at the bottom and the password will be encrypted
+            with DES and base-64 encoded.</p>
+          </li><li>
+            <p>Copy the generated password to the IdMUnit-profiles.xml for
+            the target system</p>
+          </li><li>
+            <p>Note that the key IDMUNIT1 may be changed, as long as the
+            bytes for the key are specified in the top of the EncTool source
+            in the &#8221;iv&#8221; class member variable:</p>
+
+            <pre class="programlisting">private final byte[] iv = { 0x0a, 0x01, 0x02, 0x03, 0x04, 0x0b, 0x0c, 0x0d };</pre>
+          </li></ol></div>
+      </div>
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e202"></a>Import a Certificate into IdMUnit for SSL Communication via the
+        LDAP Connector</h3></div></div></div>
+        
+
+        <div class="itemizedlist"><ul type="disc"><li>
+            <p>This procedure follows the steps used to configure a
+            standard Java Keystore:</p>
+
+            <div class="orderedlist"><ol type="1"><li>
+                <p>Export a DER encoded trusted-root certificate (from the
+                target AD DC, eDirectory or other LDAP server)</p>
+              </li><li>
+                <p>Copy the DER encoded certificate onto the machine where
+                IdMUnit is running. It may be copied into
+                IdMUnit/util/security where a batch file resides that will
+                help with importing the certificate into a Java certificate
+                store</p>
+              </li><li>
+                <p>Edit the IdMUnit/util/security/importCert.bat file to
+                import the certificate into a known keystore as follows where
+                MYCERT.cer is the name of the exported certificate file and
+                the MYSSLKEY is the alias name of this certificate in the
+                keystore:</p>
+              </li><li>
+                <p>SAMPLE importCert.bat:</p>
+
+                <pre class="programlisting">java sun.security.tools.KeyTool -import -file MYCERT.cer -keystore keystore -alias "type=r.name=MYSSLKEY"</pre>
+              </li><li>
+                <p>When executed, the keytool will ask for a password. Any
+                password may be assigned to the keystore (remember this
+                password in order to add additional certificates later on).
+                The certificate file name and alias name may be parameterized
+                with %1 and %2.</p>
+              </li></ol></div>
+          </li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="tutorial_modular_document"></a>Chapter&nbsp;4.&nbsp;Tutorial: Command-line IdMUnit Scripting and Scheduling</h2></div></div></div>
+    
+
+    <div class="itemizedlist"><ul type="disc"><li>
+        <p>Available in the IdMUnit 2.0 Training Session (more info
+        available at info@trivir.com)</p>
+      </li></ul></div>
+  </div>
+
+  <div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="being_productive"></a>Chapter&nbsp;5.&nbsp;Best Practices: Accelerating
+    Development, Testing and IDM Productivity with IdMUnit</h2></div></div></div>
+    
+
+    <div class="itemizedlist"><ul type="disc"><li>
+        <p>Available in the IdMUnit 2.0 Training Session (more info
+        available at info@trivir.com)</p>
+      </li></ul></div>
+  </div>
+
+  <div class="appendix" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d4e230"></a>Appendix&nbsp;A.&nbsp;Miscellaneous</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#d4e232">Install Designer on Linux</a></span></dt></dl></div>
+    
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e232"></a>Install Designer on Linux</h2></div></div></div>
+      
+
+      <div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+        <p>Installing into a virtual machine will provide maximum
+        portability and the ability to take configuration snapshots at desired
+        intervals</p>
+      </div>
+
+      <div class="procedure"><ol type="1"><li>
+          <p>Download latest release of Designer from <a class="ulink" href="http://www.novell.com/coolsolutions/dirxml/designer/" target="_top">here</a>
+          , extract and install by clicking the "install" script in the
+          designer_install directory or invoke it at the command line:</p>
+
+          <pre class="programlisting">$ designer_install/install
+</pre>
+        </li><li>
+          <p>Execute any platform-specific recommendations as indicated in
+          the Designer README displayed after installation. For OpenSUSE the
+          following tasks are recommended:</p>
+
+          <p>a. Remove the following lines from the Designer.ini file,
+          which is found in the directory where you installed Designer:
+          &nbsp;</p>
+
+          <p>-XX:+UseParallelGC</p>
+
+          <p>-XX:ParallelGCThreads=20</p>
+
+          <p>-XX:+UseParallelOldGC</p>
+
+          <p>b. Install the libpng3 package using the Software Management
+          component of YaST.</p>
+
+          <div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+              <p>Use df -h to check the disk space on each partition -
+              select one that has plenty of room to grow</p>
+            </div><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3>
+              <p>Installing into a virtual machine will provide maximum
+              portability and the ability to take configuration snapshots at
+              desired intervals</p>
+            </div><p>Launch Designer and validate that the installation was
+          successful.</p>
+        </li><li>
+          <p>Import the current Novell Identity Manager (IDM) project from
+          the target eDirectory tree into Designer. See the Designer help for
+          instructions as necessary.</p>
+
+          <p>Close designer after importing the project.</p>
+        </li></ol></div>
+    </div>
+  </div>
+</div></body></html>

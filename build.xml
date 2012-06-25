@@ -1,0 +1,80 @@
+<project name="IdMUnit-Default-Build" default="test" basedir=".">
+	<property name="email.to.list" value="idmunittest1@example.com, idmunittest2@example.com"/>
+
+	<property name="build.dir" value="build"/>
+
+	<property name="test.dir" value="test"/>
+	<property name="xls.dir" value="test"/>
+	<property name="props.dir" value="test"/>
+	<property name="lib.dir" value="idmunit-external/lib"/>
+	
+	<property name="testreports.dir" value="junit-reports" />
+	<property name="testhtml.dir" value="${testreports.dir}/html" />
+
+	<path id="build-classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+			<include name="**/*.zip" />
+		</fileset>
+	</path>
+	
+	<!-- Path for running test cases.  -->
+	<path id="test-classpath">
+		<path refid="build-classpath"/>
+		<path location="build"/>
+		<path location="test"/>
+	</path>
+	
+	<target name="init">
+		<mkdir dir="${build.dir}"/>
+	</target>
+	
+	<target name="build-tests">
+		<javac srcdir="${test.dir}" destdir="${build.dir}" classpathref="build-classpath" failonerror="true"/>
+	</target>
+	
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+	</target>
+
+	<target name="distclean" depends="clean">
+		<delete dir="${testreports.dir}"/>
+	</target>
+	
+	<!-- Runs our test case and generates a nice HTML report. -->
+	<target name="test" depends="clean, init, build-tests">
+		<delete dir="${testreports.dir}" />
+		<delete dir="${testhtml.dir}" />
+		<mkdir dir="${testreports.dir}" />
+		<mkdir dir="${testhtml.dir}" />
+
+		<junit showoutput="true" printsummary="true" fork="yes" failureproperty="junit.tests.have.failures">
+		<formatter type="xml" />
+			<test name="org.idmunit.ExampleTest" todir="${testreports.dir}" />
+			<classpath refid="test-classpath" />
+		</junit>
+		
+		<junitreport todir="${testhtml.dir}">
+			<fileset dir="${testreports.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${testhtml.dir}" />
+		</junitreport>
+		<antcall target="email-if-tests-fail"/>
+	</target>
+	
+	<target name="email-if-tests-fail" if="junit.tests.have.failures">
+		<echo>***** There were failures and/or errors while testing, Sending email with information now. **** </echo>
+		<mail mailhost="smtp.example.com" subject="Test report" tolist="${email.to.list}">
+			<from address="donotreply@example.com"/>
+			<message>Errors and/or failures occured while running the tests.  Please review the attached log file for further information</message>
+			<attachments>
+				<fileset dir="${testreports.dir}">
+					<include name="TEST-org.idmunit.ExampleTest.xml"/>
+				</fileset>
+			</attachments>
+		</mail>
+	</target>
+
+
+</project>

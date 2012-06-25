@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<idmunit live-profile="trivirLab" enable-email-alerts="true" enable-log-alerts="true">
+	<alerts>
+		<alert name="TriVir">
+			<description>TriVir personnel will be notified if a test marked as "Critical" fails</description>
+			<smtp-server>smtp.MYSERVER.com</smtp-server>
+			<alert-sender>idmunitAlerts@idmunit.org</alert-sender>
+			<alert-recipient>bkynaston@trivir.com</alert-recipient>
+			<subject-prefix>IdMUnit Test Failed: </subject-prefix>
+			<log-path>c:/idmunitAlerts.log</log-path>
+		</alert>
+	</alerts>
+	<profiles>
+		<profile name="trivirLab">
+			<connection>
+				<name>IV</name>
+				<description>Connector for the identity vault</description>
+				<type>org.idmunit.connector.LDAP</type>
+				<server>10.0.1.1</server>
+				<user>cn=admin,o=services</user>
+				<password>B2vPD2UsfKc=</password>
+				<keystore-path/>
+				<multiplier>
+					<retry>0</retry>
+					<wait>0</wait>
+				</multiplier>
+				<substitutions>
+					<substitution>
+						<replace>%MYORG%</replace>
+						<new>o=myorglab</new>
+					</substitution>
+				</substitutions>
+				<data-injections>
+					<data-injection>
+						<type>org.idmunit.injector.DateInjection</type>
+						<key>%TODAY%</key>
+						<format>yyyyMMdd</format>
+					</data-injection>
+					<data-injection>
+						<type>org.idmunit.injector.DateInjection</type>
+						<key>%TODAY+30%</key>
+						<format>yyyyMMdd</format>
+						<!-- Positive values will push the date forward X number of days, negative values will push the date back -->
+						<mutator>30</mutator>
+					</data-injection>
+					<data-injection>
+						<type>org.idmunit.injector.DateInjection</type>
+						<key>%TODAY-30%</key>
+						<format>yyyyMMdd</format>
+						<!-- Positive values will push the date forward X number of days, negative values will push the date back -->
+						<mutator>-30</mutator>
+					</data-injection>
+				</data-injections>
+			</connection>
+			<connection>
+				<name>DTF</name>
+				<description>Connector to TriVirDTF data feed - must  map drive/share or UNC to IDM server or remote loader running the DTF driver or setup WinSCP to the remote Linux server</description>
+				<type>org.idmunit.connector.DTF</type>
+				<server>DriverInputFilePath=x:/input/inputFile.csv|DriverOutputFilePath=x:/output/outputFile.csv|delimiter=$</server>
+				<user/>
+				<password/>
+				<keystore-path/>
+				<multiplier>
+					<retry>0</retry>
+					<wait>0</wait>
+				</multiplier>
+				<substitutions>
+					<substitution>
+						<replace/>
+						<new/>
+					</substitution>
+				</substitutions>
+			</connection>
+			<connection>
+				<name>ORCL</name>
+				<description>Connector to a database on an Oracle server</description>
+				<type>org.idmunit.connector.Oracle</type>
+				<server>jdbc:oracle:thin:@10.0.1.2:1526:DEV01</server>
+				<user>idmunit</user>
+				<password>B2vPD2UsfKc=</password>
+				<keystore-path/>
+				<multiplier>
+					<retry>0</retry>
+					<wait>0</wait>
+				</multiplier>
+				<substitutions>
+					<substitution>
+						<replace/>
+						<new/>
+					</substitution>
+					</substitutions>
+			</connection>
+		</profile>
+		<profile name="trivirProd">
+			<connection>
+				<name>IV</name>
+				<description>Connector for the identity vault</description>
+				<type>org.idmunit.connector.LDAP</type>
+				<server>10.0.100.100</server>
+				<user>cn=admin,o=services</user>
+				<password>B2vPD2UsfKc=</password>
+				<keystore-path/>
+				<multiplier>
+					<retry>0</retry>
+					<wait>0</wait>
+				</multiplier>
+				<substitutions>
+					<substitution>
+						<replace>%MYORG%</replace>
+						<new>o=myorgprod</new>
+					</substitution>
+				</substitutions>
+				<data-injections>
+					<data-injection>
+						<type>org.idmunit.injector.DateInjection</type>
+						<key>%TODAY%</key>
+						<format>yyyyMMdd</format>
+					</data-injection>
+					<data-injection>
+						<type>org.idmunit.injector.DateInjection</type>
+						<key>%TODAY+30%</key>
+						<format>yyyyMMdd</format>
+						<!-- Positive values will push the date forward X number of days, negative values will push the date back -->
+						<mutator>30</mutator>
+					</data-injection>
+					<data-injection>
+						<type>org.idmunit.injector.DateInjection</type>
+						<key>%TODAY-30%</key>
+						<format>yyyyMMdd</format>
+						<!-- Positive values will push the date forward X number of days, negative values will push the date back -->
+						<mutator>-30</mutator>
+					</data-injection>
+				</data-injections>
+			</connection>
+			<connection>
+				<name>DTF</name>
+				<description>Connector to TriVirDTF data feed - must  map drive/share or UNC to IDM server or remote loader running the DTF driver or setup WinSCP to the remote Linux server</description>
+				<type>org.idmunit.connector.DTF</type>
+				<server>DriverInputFilePath=x:/input/inputFile.csv|DriverOutputFilePath=x:/output/outputFile.csv|delimiter=$</server>
+				<user/>
+				<password/>
+				<keystore-path/>
+				<multiplier>
+					<retry>0</retry>
+					<wait>0</wait>
+				</multiplier>
+				<substitutions>
+					<substitution>
+						<replace/>
+						<new/>
+					</substitution>
+				</substitutions>
+			</connection>
+			<connection>
+				<name>ORCL</name>
+				<description>Connector to a database on an Oracle server</description>
+				<type>org.idmunit.connector.Oracle</type>
+				<server>jdbc:oracle:thin:@10.0.1.200:1526:PROD01</server>
+				<user>idmunit</user>
+				<password>B2vPD2UsfKc=</password>
+				<keystore-path/>
+				<multiplier>
+					<retry>0</retry>
+					<wait>0</wait>
+				</multiplier>
+				<substitutions>
+					<substitution>
+						<replace/>
+						<new/>
+					</substitution>
+					</substitutions>
+			</connection>
+		</profile>
+	</profiles>
+</idmunit>

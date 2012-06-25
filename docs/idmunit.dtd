@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!ELEMENT alert (description, smtp-server, alert-sender, alert-recipient, subject-prefix, log-path)>
+<!ATTLIST alert
+	name CDATA #REQUIRED
+>
+<!ELEMENT alert-recipient (#PCDATA)>
+<!ELEMENT alert-sender (#PCDATA)>
+<!ELEMENT alerts (alert)>
+<!ELEMENT connection (name, description, type, server, user, password, keystore-path, multiplier, substitutions, data-injections?)>
+<!ELEMENT description (#PCDATA)>
+<!ELEMENT format (#PCDATA)>
+<!ELEMENT idmunit (alerts, profiles)>
+<!ATTLIST idmunit
+	live-profile CDATA #REQUIRED
+	enable-email-alerts CDATA #IMPLIED
+	enable-log-alerts CDATA #IMPLIED
+>
+<!ELEMENT key (#PCDATA)>
+<!ELEMENT keystore-path (#PCDATA)>
+<!ELEMENT log-path (#PCDATA)>
+<!ELEMENT multiplier (retry, wait)>
+<!ELEMENT mutator (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT new (#PCDATA)>
+<!-- The password value must be a DES encrypted, base-64 encoded value.  See org.idmunit.EncTool for encryption/decryption capability. -->
+<!ELEMENT password (#PCDATA)>
+<!ELEMENT profile (connection*)>
+<!ATTLIST profile
+	name (dev | test | prod) #REQUIRED
+>
+<!ELEMENT profiles (profile+)>
+<!ELEMENT replace (#PCDATA)>
+<!ELEMENT retry (#PCDATA)>
+<!ELEMENT server (#PCDATA)>
+<!ELEMENT smtp-server (#PCDATA)>
+<!ELEMENT subject-prefix (#PCDATA)>
+<!ELEMENT substitution (replace, new)>
+<!ELEMENT substitutions (substitution+)>
+<!ELEMENT data-injection (type, key, format, mutator?)>
+<!ELEMENT data-injections (data-injection+)>
+<!ELEMENT type (#PCDATA)>
+<!ELEMENT user (#PCDATA)>
+<!ELEMENT wait (#PCDATA)>
